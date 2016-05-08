@@ -163,7 +163,7 @@ streznik.post('/izpisiRacunBaza', function(zahteva, odgovor) {
         odgovor.render('eslog', {
         vizualiziraj: true,
         postavkeRacuna: pesmi,
-       uporabnik: stranke[0]
+        uporabnik: stranke[0]
         });
       });
     });
