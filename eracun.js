@@ -211,11 +211,33 @@ streznik.post('/prijava', function(zahteva, odgovor) {
       //TODO: add fields and finalize
       //stmt.run("", "", "", "", "", "", "", "", "", "", "", 3); 
       //stmt.finalize();
+       if( polja.FirstName && polja.LastName && polja.Address && polja.City && polja.State && polja.Country && polja.PostalCode && polja.Phone && polja.Email ){
+       stmt.run(polja.FirstName, polja.LastName, polja.Company, polja.Address, polja.City, polja.State, polja.Country, polja.PostalCode, polja.Phone, polja.Fax, polja.Email, 3); 
+      stmt.finalize();
+     }
     } catch (err) {
       napaka2 = true;
     }
-  
-    odgovor.end();
+   if( !napaka2 && polja.FirstName && polja.LastName && polja.Address && polja.City && polja.State && polja.Country && polja.PostalCode && polja.Phone && polja.Email ){
+
+     //povrnitev na stran za prijavo in prikaz sporočila
+      vrniStranke(function(napaka1, stranke) {
+       vrniRacune(function(napaka2, racuni) {
+      odgovor.render('prijava', {sporocilo: "Stranka je bila uspešno registrirana", seznamStrank: stranke, seznamRacunov: racuni});
+        }) 
+      });
+    }
+
+    else{
+     
+      //povrnitev na stran za prijavo
+      vrniStranke(function(napaka1, stranke) {
+        vrniRacune(function(napaka2, racuni) {
+         odgovor.render('prijava', {sporocilo: "Prišlo je do napake pri registraciji nove stranke. Prosim preverite vnešene podatke in poskusite znova.", seznamStrank: stranke, seznamRacunov: racuni});
+      }) 
+      });
+    }
+    
   });
 })
 
